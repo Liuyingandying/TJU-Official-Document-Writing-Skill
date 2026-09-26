@@ -8,7 +8,7 @@ official-document writing skill
 on top of its Chinese official-document standard (GB/T 9704-2012), it adds
 genre routing, structure templates and writing rules for real university scenarios.
 
-**Current version: v0.9.0 (Public Beta)** — see [README.md](README.md) for the Chinese primary documentation.
+**Current version: v1.0.0 (Production)** — see [README.md](README.md) for the Chinese primary documentation.
 
 ## Features
 
@@ -52,31 +52,34 @@ not a built-in component — without it, this Skill delivers finalized Markdown.
 
 ## Validation Status
 
-Verified (real runs inside ZCode Runtime):
+**FULL VERIFIED** — TJU LLM (`tju-llm`) end-to-end validation completed on 2026-09-26.
 
-- The runtime discovers and loads this Skill
-- official-document-writing-tju was actually selected (Skill invocation → full SKILL.md injected)
-- tju-extension templates were actually used (research stage summary / competition summary / proposal drafts)
-- Skill → academic-office MCP → DOCX ran end to end
-- document_type = 总结 (Summary)
-- status = success
-- verify = 13/13
+Verified end-to-end with:
 
-Current model used for the validated runtime chain: **GLM-5.3-Flash**
+```
+TJU LLM (`tju-llm`)
+→ ZCode Skill Runtime
+→ `official-document-writing-tju`
+→ `competition_summary`
+→ academic-office MCP
+→ DOCX
+→ verify 13/13
+```
 
-TJU LLM status:
+| Item | Value |
+|---|---|
+| Actual model | `580ff3eb-26bc-4a55-9989-de1b9a6d207b/tju-llm` |
+| Skill selected | `official-document-writing-tju` → `references/competition_summary.md` |
+| Genre | 总结 (Competition Summary) |
+| MCP tool | `generate_academic_docx` |
+| document_type | 总结 |
+| status | success |
+| verify | 13/13 |
+| DOCX | `FPGA比赛总结_144641.docx` (16.8 KB) |
+| fallback | none |
 
-- tju-llm provider configured
-- Standalone REST test confirms OpenAI-compatible tool_calls support
-- Not yet verified within a single real ZCode session: tju-llm → Skill → MCP → DOCX
-
-Hence the current project status: **v0.9.0 Public Beta**.
-
-v1.0.0 criteria: real model_usage proving model_id=tju-llm, plus a complete
-tju-llm → official-document-writing-tju → academic-office MCP → DOCX → verify 13/13 run.
-
-> Wording note: the above describes a real end-to-end validation "in the ZCode Runtime with the
-> stated model environment"; it is not a compatibility claim for every Agent Runtime or LLM.
+> Validation scope: ZCode Runtime + TJU LLM (`tju-llm`).
+> This is not a compatibility claim for other Agent Runtimes or LLMs.
 
 ## Installation
 

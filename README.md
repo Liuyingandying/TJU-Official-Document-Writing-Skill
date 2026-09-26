@@ -7,7 +7,7 @@
 的适配层：在其"党政机关公文"规范（GB/T 9704-2012）之上，补充中国高校真实场景的
 应用写作文种路由、结构模板与写作规范。
 
-**当前版本：v0.9.0（Public Beta）**
+**当前版本：v1.0.0（Production）**
 
 ## Features
 
@@ -51,30 +51,33 @@ optional document generator / MCP    ← 可选（如 academic-office MCP，负�
 
 ## Validation Status
 
-Verified（在 ZCode Runtime 中的真实运行记录）：
+**FULL VERIFIED** — TJU LLM (`tju-llm`) end-to-end validation completed on 2026-09-26.
 
-- ZCode Runtime 可以发现和加载本 Skill
-- official-document-writing-tju Skill 已真实命中（Skill 调用 → SKILL.md 全文注入）
-- tju-extension 模板已实际使用（科研阶段总结 / 比赛总结 / 申报书等场景成稿）
-- Skill → academic-office MCP → DOCX 已真实跑通
-- document_type = 总结
-- status = success
-- verify = 13/13
+Verified end-to-end with:
 
-Current model used for the validated runtime chain: **GLM-5.3-Flash**
+```
+TJU LLM (`tju-llm`)
+→ ZCode Skill Runtime
+→ `official-document-writing-tju`
+→ `competition_summary`
+→ academic-office MCP
+→ DOCX
+→ verify 13/13
+```
 
-TJU LLM status:
+| 记录项 | 值 |
+|---|---|
+| 实际模型 | `580ff3eb-26bc-4a55-9989-de1b9a6d207b/tju-llm` |
+| Skill 命中 | `official-document-writing-tju` → `references/competition_summary.md` |
+| 文种判定 | 总结（竞赛项目总结） |
+| MCP tool | `generate_academic_docx` |
+| document_type | 总结 |
+| status | success |
+| verify | 13/13 |
+| DOCX | `FPGA比赛总结_144641.docx`（16.8 KB） |
+| fallback | none |
 
-- tju-llm provider 已配置
-- 独立 REST 测试确认支持 OpenAI-compatible tool_calls
-- 尚未在同一次真实 ZCode 会话中验证：tju-llm → Skill → MCP → DOCX
-
-因此项目当前状态：**v0.9.0 Public Beta**。
-
-升级 v1.0.0 条件：真实 model_usage 证明 model_id=tju-llm，并完成
-tju-llm → official-document-writing-tju → academic-office MCP → DOCX → verify 13/13。
-
-> 措辞说明：以上为"在 ZCode Runtime + 上述模型环境中的真实端到端验证"，
+> 验证范围：ZCode Runtime + TJU LLM（`tju-llm`）。
 > 不构成对其他 Agent Runtime 或其他 LLM 的适配性承诺。
 
 ## Supported Environments
